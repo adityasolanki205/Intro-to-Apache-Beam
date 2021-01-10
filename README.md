@@ -1,43 +1,45 @@
-# Supervised Learning on German Credit Data
+# Intro to Apache Beam
 
-This is a **Supervised Learning Project on German Credit Data**. In this repository a complete process of Supervised Learning is explained. Here are the steps followed to perform this analysis :
+This is a **Introduction to Apache Beam using Python** Repository. Here we will try to learn basics of Apache Beam to create **Batch** and **Streaming** pipelines. We will follow the steps given below to move ahead:
 
-1. **Data Loading**
-2. **Data Exploration**
-3. **Data Preprocessing**
-4. **Model Selection**
-5. **Model Evaluation**
-6. **Conclusion**
+1. **Introduction to Apache Beam Model**
+2. **Basic Codes**
+3. **Batch Pipelines**
+4. **Streaming Pipeplines**
+5. **Conclusion**
 
 
 ## Motivation
-For the last one year, I have been part of a great learning curve wherein I have upskilled myself to move into a Machine Learning and Cloud Computing. This project was practice project for all the learnings I have had. This is first of the many more to come. 
+For the last two years, I have been part of a great learning curve wherein I have upskilled myself to move into a Machine Learning and Cloud Computing. This project was practice project for all the learnings I have had. This is first of the many more to come. 
  
 
-## Libraries/framework used
+## Libraries/frameworks used
 
 <b>Built with</b>
-- [scikit-learn](https://scikit-learn.org/stable/)
-- [seaborn](https://seaborn.pydata.org/)
-- [matplotlib.pyplot](https://matplotlib.org/api/pyplot_api.html)
-- [Pandas](https://pandas.pydata.org/)
-- [numpy](https://numpy.org/)
-
+- [Apache Beam](https://beam.apache.org/documentation/programming-guide/)
+- [Anaconda](https://www.anaconda.com/)
+- [Python](https://www.python.org/)
 
 ## Code Example
 
 ```bash
     # clone this repo, removing the '-' to allow python imports:
-    git clone https://github.com/adityasolanki205/German-Credit.git
+    git clone https://github.com/adityasolanki205/Intro-to-Apache-Beam.git
 ```
 
-## Installation
+## Apache Beam
 
 Below are the steps to setup the enviroment and run the codes:
 
-1. **Data Setup**: First the data setup has to be done. Download the [German Credit Risk](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)). Refined data is also present [here](https://www.kaggle.com/uciml/german-credit) 
+1. **Introduction to Apache Beam Model**: Apache Beam is an open source model for creating both batch and streaming data-parallel processing pipelines. we will use python to build a program that defines the pipeline. The pipeline is then executed by one of Beam’s supported distributed processing back-ends like Google Cloud Dataflow.
 
-2. **Exploratory Data Analysis**: Now we need check if the data is clean, how is the data in the dataset, what features require more refining and better representation. Using visualization and python's data analysis libraries we will try to extract hidden details from the data.
+Beam is particularly useful for Embarrassingly Parallel data processing tasks, for Extract, Transform, and Load (ETL) tasks and pure data integration. These tasks are useful for moving data between different storage media and data sources, transforming data into a more desirable format, or loading data onto a new system.
+
+Everything in Apache beam are done in form of abstractions like pipelines, Pcollections and Ptransforms. Ptransforms are performed on Pcollections and this process is called pipeline.
+
+
+2. **Basic Codes**: Now we go step by step to learn Apache beam coding:
+    i. First is to define the Pipeline options
 
 ```python
     # All the codes are written in Jupyter Notebooks
