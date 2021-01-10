@@ -39,6 +39,7 @@ Everything in Apache beam are done in form of abstractions like pipelines, Pcoll
 
 
 2. **Basic Codes**: Now we go step by step to learn Apache beam coding:
+    
     i. First is to define the Pipeline options
 
 ```python
