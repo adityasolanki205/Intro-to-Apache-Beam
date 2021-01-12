@@ -1,6 +1,6 @@
 # Intro to Apache Beam
 
-This is a **Introduction to Apache Beam using Python** Repository. Here we will try to learn basics of Apache Beam to create **Batch** and **Streaming** pipelines. We will follow the steps given below to move ahead:
+This is a **Introduction to Apache Beam using Python** Repository. Here we will try to learn basics of Apache Beam to create **Batch** and **Streaming** pipelines. We will follow the learn step by step how to create a pipeline and what are the outputs after each phase:
 
 1. **Introduction to Apache Beam Model**
 2. **Basic Codes**
