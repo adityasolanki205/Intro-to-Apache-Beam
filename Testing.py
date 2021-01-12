@@ -46,12 +46,10 @@ def run(argv=None, save_main_session=True):
         close_col = (csv_lines 
                      | beam.ParDo(CollectClose())
                      | "Grouping Keys Close" >> beam.GroupByKey())
-        output = ( 
-                    ({'Open'  : open_col, 
-                      'Close' : close_col} 
-                     | beam.CoGroupByKey())
+        output = ( (close_col, open_col)
+                     | beam.Flatten()
                      | beam.io.WriteToText(known_args.output)
-                  )
+                 )
         
 if __name__ == '__main__':
     run()
