@@ -1,6 +1,6 @@
 # Intro to Apache Beam
 ## Under construction
-This is a **Introduction to Apache Beam using Python** Repository. Here we will try to learn basics of Apache Beam to create **Batch** and **Streaming** pipelines. We will follow the learn step by step how to create a pipeline and what are the outputs after each phase:
+This is a **Introduction to Apache Beam using Python** Repository. Here we will try to learn basics of Apache Beam to create **Batch** and **Streaming** pipelines. We will follow the learn step by step how to create a pipeline and what are the outputs after each phase. To establish that we will try to create simple pipeline to calculate the mean of two columns in a CSV file.
 
 1. **Introduction to Apache Beam Model**
 2. **Basic Codes**
@@ -40,7 +40,9 @@ Below are the steps to setup the enviroment and run the codes:
 
 2. **Basic Codes**: Now we go step by step to learn Apache beam coding:
     
-    i. First is to define the Pipeline options
+    i. ***Pcollection*** : The PCollection abstraction represents a potentially distributed, multi-element data set. You can think of a PCollection as “pipeline” data; Beam transforms use PCollection objects as inputs and outputs. As such, if you want to work with data in your pipeline, it must be in the form of a PCollection. 
+    
+    ii. ***Transform*** : Transforms are the operations in your pipeline, and provide a generic processing framework. You provide processing logic in the form of a function object (colloquially referred to as “user code”), and your user code is applied to each element of an input PCollection (or more than one PCollection) 
 
 ```python
     # All the codes are written in Jupyter Notebooks
