@@ -42,7 +42,7 @@ Below are the steps to setup the enviroment and run the codes:
     
       i. ***Pipeline*** : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
       
-        a. Creating Pipeline :
+        a. ***Creating Pipeline*** :
       
           import apache_beam as beam
           import apache_beam.options.pipeline_options as PipelineOptions
@@ -50,7 +50,7 @@ Below are the steps to setup the enviroment and run the codes:
            with beam.Pipeline(options=PipelineOptions()) as p:
                  pass
                  
-        b. Setting Pipeline options from command-line:
+        b. ***Setting Pipeline options from command-line***:
       
           import apache_beam as beam
           from apache_beam.options.pipeline_options import PipelineOptions
