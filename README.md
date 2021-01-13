@@ -58,7 +58,7 @@ Below are the steps to setup the enviroment and run the codes:
     
     i. ***Pipeline*** : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
       
-    - Creating Pipeline :
+    - ***Creating Pipeline*** :
       
       ```python
         import apache_beam as beam
@@ -68,38 +68,37 @@ Below are the steps to setup the enviroment and run the codes:
              pass
       ```
                  
-    - Setting Pipeline options from command-line :
+    - ***Setting Pipeline options from command-line*** :
           
        ```python
-            import apache_beam as beam
-            from apache_beam.options.pipeline_options import PipelineOptions
-            import argparse
-
-            def run(argv=None, save_main_session=True):
-                parser = argparse.ArgumentParser()
-                parser.add_argument(
+         import apache_beam as beam
+         from apache_beam.options.pipeline_options import PipelineOptions
+         import argparse
+         def run(argv=None, save_main_session=True):
+             parser = argparse.ArgumentParser()
+             parser.add_argument(
                   '--input',
                   dest='input',
                   default='../data/sp500.csv',
                   help='Input file to process.')
-                parser.add_argument(
+             parser.add_argument(
                   '--output',
                   dest='output',
                   default='../output/result.txt',
                   help='Output file to write results to.')
-                known_args, pipeline_args = parser.parse_known_args(argv)
-                options = PipelineOptions(pipeline_args)
-                with beam.Pipeline(options=PipelineOptions()) as p:
-                    pass
-            if __name__ == '__main__':
-                run()
+             known_args, pipeline_args = parser.parse_known_args(argv)
+             options = PipelineOptions(pipeline_args)
+             with beam.Pipeline(options=PipelineOptions()) as p:
+                  pass
+          if __name__ == '__main__':
+             run()
        ```
 
      ii. ***Pcollection*** : The PCollection abstraction represents a potentially distributed, multi-element data set. You can think of a PCollection as “pipeline” data; Beam transforms use PCollection objects as inputs and outputs. As such, if you want to work with data in your pipeline, it must be in the form of a PCollection. 
     
     iii. ***Transform*** : Transforms are the operations in your pipeline, and provide a generic processing framework. You provide processing logic in the form of a function object (colloquially referred to as “user code”), and your user code is applied to each element of an input PCollection (or more than one PCollection). Types of transform functions are as follows:
     
-    - ParDo : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
+    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
          
        ```python
             class Split(beam.DoFn):
@@ -116,10 +115,9 @@ Below are the steps to setup the enviroment and run the codes:
                              | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
                              | beam.ParDo(Split())
                              | beam.io.WriteToText(known_args.output))
-        
        ```
 
-3. **Data Wrangling**:  Now we will clean the data to be used by the Machine learning algorithms. Using Logrithmic transforms, Min Max Scaling and One Hot Encoding we will make the data machine readable and more relavant,
+    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
 
 ```python
     # Logrithmic transform to remove the outliers
