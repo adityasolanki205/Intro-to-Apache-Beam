@@ -184,19 +184,39 @@ Below are the steps to setup the enviroment and run the codes:
                          )
        ```
 
-4. **Model Selection**: Now we will train 3 different types of Models and see which one is preforming better.
+    - ***Flatten*** : Flatten is a Beam transform for PCollection objects that store the same data type. Flatten merges multiple PCollection objects into a single logical PCollection. It returns a single PCollection that contains all of the elements in the PCollection objects in that tuple. Output saved from this is present with the name ****Flatten.txt****
 
-```python
-    # First is Random Forest Algorithm
-    Randon_forest_pred  = RandomForestClassifier().fit(X_train, y_train).predict(X_test)
-    
-    # Second is Logistic Regression Algorithm
-    Logistic_regression_pred   = LogisticRegression().fit(X_train, y_train).predict(X_test)
-    
-    # Third is Support Vector Machine
-    SVC_pred  = SVC(kernel = 'linear',probability = True).fit(X_train, y_train).predict(X_test)
-```
-
+       ```python
+         class CollectOpen(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Open'])]
+                 return result
+         class CollectClose(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Close'])]
+                 return result
+            ...
+            
+          with beam.Pipeline(options=PipelineOptions()) as p:
+            
+             csv_lines =  (p 
+                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.ParDo(Split())
+             open_col  =  (csv_lines 
+                          | beam.ParDo(CollectOpen()) 
+                          | "Grouping Keys Open" >> beam.GroupByKey()
+                          )
+             close_col =  (csv_lines 
+                          | beam.ParDo(CollectClose())
+                          | "Grouping Keys Close" >> beam.GroupByKey()
+                          )
+             output =     ( (close_col, open_col)
+                          | beam.Flatten()
+                          | beam.io.WriteToText(known_args.output)
+                          )
+       ```
 5. **Model Evaluation**: After selecting top 2 models we will try to evaluate which one is better on the given model. Also as per the given problem we will find Fbeta score.
 
 ```python
