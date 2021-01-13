@@ -31,18 +31,18 @@ For the last two years, I have been part of a great learning curve wherein I hav
 
 Below are the steps to setup the enviroment and run the codes:
 
-1. **Introduction to Apache Beam Model**: Apache Beam is an open source model for creating both batch and streaming data-parallel processing pipelines. we will use python to build a program that defines the pipeline. The pipeline is then executed by one of Beam’s supported distributed processing back-ends like Google Cloud Dataflow.
+- **Introduction to Apache Beam Model**: Apache Beam is an open source model for creating both batch and streaming data-parallel processing pipelines. we will use python to build a program that defines the pipeline. The pipeline is then executed by one of Beam’s supported distributed processing back-ends like Google Cloud Dataflow.
 
     Beam is particularly useful for Embarrassingly Parallel data processing tasks, for Extract, Transform, and Load (ETL) tasks and pure data integration. These tasks are useful for moving data between different storage media and data sources, transforming data into a more desirable format, or loading data onto a new system.
 
     Everything in Apache beam are done in form of abstractions like pipelines, Pcollections and Ptransforms. Ptransforms are performed on Pcollections and this process is called pipeline.
 
 
-2. **Basic Codes**: Now we go step by step to learn Apache beam coding:
+- **Basic Codes**: Now we go step by step to learn Apache beam coding:
     
-      i. <u>***Pipeline***</u> : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
+      i. ***Pipeline*** : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
       
--    Creating Pipeline :
+    - Creating Pipeline :
       
       ```python
         import apache_beam as beam
@@ -52,7 +52,7 @@ Below are the steps to setup the enviroment and run the codes:
              pass
       ```
                  
--    Setting Pipeline options from command-line :
+    - Setting Pipeline options from command-line :
           
        ```python
             import apache_beam as beam
@@ -83,7 +83,7 @@ Below are the steps to setup the enviroment and run the codes:
     
       iii. ***Transform*** : Transforms are the operations in your pipeline, and provide a generic processing framework. You provide processing logic in the form of a function object (colloquially referred to as “user code”), and your user code is applied to each element of an input PCollection (or more than one PCollection). Types of transform functions are as follows:
     
-- ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this 
+    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this 
         
  
 ```python
