@@ -117,18 +117,23 @@ Below are the steps to setup the enviroment and run the codes:
                           | beam.io.WriteToText(known_args.output))
        ```
 
-    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
+    - ***GroupByKey*** : GroupByKey is a Beam transform for processing collections of key/value pairs. It’s a parallel reduction operation. The input to GroupByKey is a collection of key/value pairs that represents a multimap, where the collection contains multiple pairs that have the same key, but different values. Given such a collection, you use GroupByKey to collect all of the values associated with each unique key. We will try to use this to create a Singular output file containing all OPEN or CLOSE columns. Output saved from this is present with the name ****OPEN.txt****
 
-```python
-    # Logrithmic transform to remove the outliers
-    customers[numeric_columns].apply(lambda x: np.log(x + 1))
-    
-    # Min Max scaling to normalize the data
-    customers_log_transformed[numeric_columns] = scaler.fit_transform(customers_log_transformed[numeric_columns])
-    
-    # One Hot Encoding for the Data becomes machine readable
-    customers_final = pd.get_dummies(customers_log_transformed)
-```
+       ```python
+         class CollectOpen(beam.DoFn):
+             def process(self, element):
+                 result = [(1,element['Open'])]
+                 return result
+            ...
+          with beam.Pipeline(options=PipelineOptions()) as p:
+             csv_lines = (p 
+                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.ParDo(Split())
+             open_col  = (csv_lines 
+                          | beam.ParDo(CollectOpen()) 
+                          | "Grouping Keys Open" >> beam.GroupByKey()
+                          | beam.io.WriteToText(known_args.output))          
+       ```
 
 4. **Model Selection**: Now we will train 3 different types of Models and see which one is preforming better.
 
