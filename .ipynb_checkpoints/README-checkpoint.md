@@ -101,20 +101,20 @@ Below are the steps to setup the enviroment and run the codes:
     - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
          
        ```python
-            class Split(beam.DoFn):
-                def process(self, element):
-                    Date,Open,High,Low,Close,Volume, AdjClose = element.split(',')
-                    return [{
-                            'Date': Date,
-                            'Open': float(Open),
-                            'Close': float(Close)
-                            }]
+         class Split(beam.DoFn):
+             def process(self, element):
+                 Date,Open,High,Low,Close,Volume, AdjClose = element.split(',')
+                 return [{
+                         'Date': Date,
+                         'Open': float(Open),
+                         'Close': float(Close)
+                         }]
             ...
-            with beam.Pipeline(options=PipelineOptions()) as p:
-                csv_lines = (p 
-                             | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
-                             | beam.ParDo(Split())
-                             | beam.io.WriteToText(known_args.output))
+          with beam.Pipeline(options=PipelineOptions()) as p:
+             csv_lines = (p 
+                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.ParDo(Split())
+                          | beam.io.WriteToText(known_args.output))
        ```
 
     - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
