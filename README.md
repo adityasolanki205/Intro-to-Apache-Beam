@@ -40,7 +40,7 @@ Below are the steps to setup the enviroment and run the codes:
 
 2. **Basic Codes**: Now we go step by step to learn Apache beam coding:
     
-      i. ***Pipeline*** : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
+      i. <u>***Pipeline***</u> : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
       
 -    Creating Pipeline :
       
