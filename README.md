@@ -98,7 +98,7 @@ Below are the steps to setup the enviroment and run the codes:
     
     iii. ***Transform*** : Transforms are the operations in your pipeline, and provide a generic processing framework. You provide processing logic in the form of a function object (colloquially referred to as “user code”), and your user code is applied to each element of an input PCollection (or more than one PCollection). Types of transform functions are as follows:
     
-    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
+    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name ****PARDO.txt****
          
        ```python
          class Split(beam.DoFn):
