@@ -41,13 +41,12 @@ Below are the steps to setup the enviroment and run the codes:
 2. **Basic Codes**: Now we go step by step to learn Apache beam coding:
     
       i. ***Pipeline*** : The Pipeline abstraction encapsulates all the data and steps in your data processing task. Your Beam driver program typically starts by constructing a Pipeline object, and then using that object as the basis for creating the pipeline’s data sets as PCollections and its operations as Transforms.
-        
+               
         import apache_beam as beam
         import apache_beam.options.pipeline_options as PipelineOptions
 
         with beam.Pipeline(options=PipelineOptions()) as p:
              pass
-        
         
       ii. ***Pcollection*** : The PCollection abstraction represents a potentially distributed, multi-element data set. You can think of a PCollection as “pipeline” data; Beam transforms use PCollection objects as inputs and outputs. As such, if you want to work with data in your pipeline, it must be in the form of a PCollection. 
     
