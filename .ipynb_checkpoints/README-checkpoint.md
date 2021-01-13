@@ -25,6 +25,22 @@ For the last two years, I have been part of a great learning curve wherein I hav
 ```bash
     # clone this repo, removing the '-' to allow python imports:
     git clone https://github.com/adityasolanki205/Intro-to-Apache-Beam.git
+    
+    # Installing Virtual Environment
+    pip install --upgrade virtualenv
+    
+    # Create virtual environment 
+    virtualenv /path/to/directory
+    
+    # Activate a virtual environment
+    . /path/to/directory/bin/activate
+    
+    # Install Apache Beam
+    pip install apache-beam
+
+    # Execute a Pipeline
+    python -m Testing --input ./data/sp500.csv --output ./output/result.txt
+    
 ```
 
 ## Apache Beam
@@ -83,30 +99,25 @@ Below are the steps to setup the enviroment and run the codes:
     
     iii. ***Transform*** : Transforms are the operations in your pipeline, and provide a generic processing framework. You provide processing logic in the form of a function object (colloquially referred to as “user code”), and your user code is applied to each element of an input PCollection (or more than one PCollection). Types of transform functions are as follows:
     
-    - ***ParDo*** : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this 
+    - ParDo : ParDo is a Beam transform for generic parallel processing. A ParDo transform considers each element in the input PCollection, performs some processing function (your user code) on that element, and emits zero, one, or multiple elements to an output PCollection. We will try to use this to create a SPLIT() function that will segregate the input CSV elements. Output saved from this is present with the name PARDO.txt
+         
+       ```python
+            class Split(beam.DoFn):
+                def process(self, element):
+                    Date,Open,High,Low,Close,Volume, AdjClose = element.split(',')
+                    return [{
+                            'Date': Date,
+                            'Open': float(Open),
+                            'Close': float(Close)
+                            }]
+            ...
+            with beam.Pipeline(options=PipelineOptions()) as p:
+                csv_lines = (p 
+                             | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                             | beam.ParDo(Split())
+                             | beam.io.WriteToText(known_args.output))
         
- 
-```python
-    # All the codes are written in Jupyter Notebooks
-
-    # Checking if there are any missing values
-    customers.isnull().sum()
-     
-    # Checking how skewed is the data in the two classes of credit worthy and non credit worthy customers
-    classification_count = customers.groupby('Classification').count()
-    classification_count['Existing account']
-    
-    # Using group by we will try to capture various hidden details in the data
-    grouped_data = df.groupby([column]).get_group(value)
-    
-    # Using various graphs we will try to see the details of the data
-    sns.factorplot(data=customers, 
-                   col='Number of credits', 
-                   x='Credit history', 
-                   y='Age', 
-                   hue='Classification', 
-                   kind='swarm', size=11, aspect=0.4, s=7)
-```
+       ```
 
 3. **Data Wrangling**:  Now we will clean the data to be used by the Machine learning algorithms. Using Logrithmic transforms, Min Max Scaling and One Hot Encoding we will make the data machine readable and more relavant,
 
