@@ -74,22 +74,29 @@ Below are the steps to setup the enviroment and run the codes:
          import apache_beam as beam
          from apache_beam.options.pipeline_options import PipelineOptions
          import argparse
+            
          def run(argv=None, save_main_session=True):
+            
              parser = argparse.ArgumentParser()
              parser.add_argument(
                   '--input',
                   dest='input',
                   default='../data/sp500.csv',
                   help='Input file to process.')
+            
              parser.add_argument(
                   '--output',
                   dest='output',
                   default='../output/result.txt',
                   help='Output file to write results to.')
+                
              known_args, pipeline_args = parser.parse_known_args(argv)
+            
              options = PipelineOptions(pipeline_args)
+                
              with beam.Pipeline(options=PipelineOptions()) as p:
                   pass
+                
           if __name__ == '__main__':
              run()
        ```
@@ -102,7 +109,9 @@ Below are the steps to setup the enviroment and run the codes:
          
        ```python
          class Split(beam.DoFn):
+        
              def process(self, element):
+              
                  Date,Open,High,Low,Close,Volume, AdjClose = element.split(',')
                  return [{
                          'Date': Date,
@@ -110,22 +119,27 @@ Below are the steps to setup the enviroment and run the codes:
                          'Close': float(Close)
                          }]
             ...
+            
           with beam.Pipeline(options=PipelineOptions()) as p:
+            
              csv_lines = (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
                           | beam.ParDo(Split())
                           | beam.io.WriteToText(known_args.output))
        ```
 
-    - ***GroupByKey*** : GroupByKey is a Beam transform for processing collections of key/value pairs. It’s a parallel reduction operation. The input to GroupByKey is a collection of key/value pairs that represents a multimap, where the collection contains multiple pairs that have the same key, but different values. Given such a collection, you use GroupByKey to collect all of the values associated with each unique key. We will try to use this to create a Singular output file containing all OPEN or CLOSE columns. Output saved from this is present with the name ****OPEN.txt****
+    - ***GroupByKey*** : GroupByKey is a Beam transform for processing collections of key/value pairs. It’s a parallel reduction operation. The input to GroupByKey is a collection of key/value pairs that represents a multimap, where the collection contains multiple pairs that have the same key, but different values. Given such a collection, you use GroupByKey to collect all of the values associated with each unique key. We will try to use this to create a Singular output file containing all OPEN or CLOSE column values. Output saved from this is present with the name ****GroupByKey.txt****
 
        ```python
          class CollectOpen(beam.DoFn):
+        
              def process(self, element):
                  result = [(1,element['Open'])]
                  return result
             ...
+            
           with beam.Pipeline(options=PipelineOptions()) as p:
+            
              csv_lines = (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
                           | beam.ParDo(Split())
@@ -133,6 +147,41 @@ Below are the steps to setup the enviroment and run the codes:
                           | beam.ParDo(CollectOpen()) 
                           | "Grouping Keys Open" >> beam.GroupByKey()
                           | beam.io.WriteToText(known_args.output))          
+       ```
+    - ***CoGroupByKey*** : CoGroupByKey performs a relational join of two or more key/value PCollections that have the same key type. Consider using CoGroupByKey if you have multiple data sets that provide information about related things. For Example we will combine the output of GroupByKey output from above into one key with the name ****CoGroupByKey.txt****
+
+       ```python
+         class CollectOpen(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Open'])]
+                 return result
+         class CollectClose(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Close'])]
+                 return result
+            ...
+            
+          with beam.Pipeline(options=PipelineOptions()) as p:
+            
+             csv_lines = (p 
+                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.ParDo(Split())
+             open_col  = (csv_lines 
+                          | beam.ParDo(CollectOpen()) 
+                          | "Grouping Keys Open" >> beam.GroupByKey()
+                          )
+             close_col =  (csv_lines 
+                          | beam.ParDo(CollectClose())
+                          | "Grouping Keys Close" >> beam.GroupByKey()
+                          )
+             output    = ( 
+                         ({'Open'  : open_col, 
+                          'Close'  : close_col} 
+                          | beam.CoGroupByKey())
+                          | beam.io.WriteToText(known_args.output)
+                         )
        ```
 
 4. **Model Selection**: Now we will train 3 different types of Models and see which one is preforming better.
