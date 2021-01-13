@@ -45,38 +45,38 @@ Below are the steps to setup the enviroment and run the codes:
 -    Creating Pipeline :
       
       ```python
-import apache_beam as beam
-import apache_beam.options.pipeline_options as PipelineOptions
+        import apache_beam as beam
+        import apache_beam.options.pipeline_options as PipelineOptions
 
-with beam.Pipeline(options=PipelineOptions()) as p:
-     pass
+        with beam.Pipeline(options=PipelineOptions()) as p:
+             pass
       ```
                  
 -    Setting Pipeline options from command-line :
           
        ```python
-import apache_beam as beam
-from apache_beam.options.pipeline_options import PipelineOptions
-import argparse
-            
-def run(argv=None, save_main_session=True):
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-      '--input',
-      dest='input',
-      default='../data/sp500.csv',
-      help='Input file to process.')
-    parser.add_argument(
-      '--output',
-      dest='output',
-      default='../output/result.txt',
-      help='Output file to write results to.')
-    known_args, pipeline_args = parser.parse_known_args(argv)
-    options = PipelineOptions(pipeline_args)
-    with beam.Pipeline(options=PipelineOptions()) as p:
-        pass
-if __name__ == '__main__':
-    run()
+            import apache_beam as beam
+            from apache_beam.options.pipeline_options import PipelineOptions
+            import argparse
+
+            def run(argv=None, save_main_session=True):
+                parser = argparse.ArgumentParser()
+                parser.add_argument(
+                  '--input',
+                  dest='input',
+                  default='../data/sp500.csv',
+                  help='Input file to process.')
+                parser.add_argument(
+                  '--output',
+                  dest='output',
+                  default='../output/result.txt',
+                  help='Output file to write results to.')
+                known_args, pipeline_args = parser.parse_known_args(argv)
+                options = PipelineOptions(pipeline_args)
+                with beam.Pipeline(options=PipelineOptions()) as p:
+                    pass
+            if __name__ == '__main__':
+                run()
          ```
               
       ii. ***Pcollection*** : The PCollection abstraction represents a potentially distributed, multi-element data set. You can think of a PCollection as “pipeline” data; Beam transforms use PCollection objects as inputs and outputs. As such, if you want to work with data in your pipeline, it must be in the form of a PCollection. 
