@@ -1,5 +1,4 @@
-# Intro to Apache Beam
-## Under construction
+# Intro to Apache Beam (Under Construction)
 This is a **Introduction to Apache Beam using Python** Repository. Here we will try to learn basics of Apache Beam to create **Batch** and **Streaming** pipelines. We will follow the learn step by step how to create a pipeline and what are the outputs after each phase. To establish that we will try to create simple pipeline to calculate the mean of two columns in a CSV file.
 
 1. **Introduction to Apache Beam Model**
@@ -217,18 +216,40 @@ Below are the steps to setup the enviroment and run the codes:
                           | beam.io.WriteToText(known_args.output)
                           )
        ```
-5. **Model Evaluation**: After selecting top 2 models we will try to evaluate which one is better on the given model. Also as per the given problem we will find Fbeta score.
+    - ***CombineValues*** : CombineValues accepts a function that takes an iterable of elements as an input, and combines them to return a single element. CombineValues expects a keyed PCollection of elements, where the value is an iterable of elements to be combined. Output saved from this is present with the name ****CombineValues.txt****
 
-```python
-   # First we will try to find the ROC curve for both the models
-   roc_curve(y_test, lr_probs, pos_label=2)
-   
-   # Then we will try to the Best Classifier using Grid Search CV
-   GridSearchCV(clf, parameters, scoring = scorer).fit(X_train, y_train).best_estimator_
-```
-
-6. **Conclusion**: Atlast we will conclude about everything we found out. 
-
+       ```python
+         class CollectOpen(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Open'])]
+                 return result
+         class CollectClose(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Close'])]
+                 return result
+            ...
+            
+          with beam.Pipeline(options=PipelineOptions()) as p:
+            
+             csv_lines =  (p 
+                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.ParDo(Split())
+             open_col  =  (csv_lines 
+                          | beam.ParDo(CollectOpen()) 
+                          | "Grouping Keys Open" >> beam.GroupByKey()
+                          )
+             close_col =  (csv_lines 
+                          | beam.ParDo(CollectClose())
+                          | "Grouping Keys Close" >> beam.GroupByKey()
+                          )
+             output =     ( open_col
+                          |'Sum' >> beam.CombineValues(sum) 
+                          | beam.io.WriteToText(known_args.output)
+                          )
+       ```
+    
 
 ## How to use?
 To test the code we need to do the following:
