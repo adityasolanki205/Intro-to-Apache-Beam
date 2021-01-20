@@ -48,16 +48,20 @@ def run(argv=None, save_main_session=True):
                      | beam.ParDo(CollectClose())
                      | "Grouping Keys Close" >> beam.GroupByKey()
                     )
-        output    = ( 
+        '''output    = ( 
                     ({'Open'  : open_col, 
                       'Close' : close_col} 
                      | beam.CoGroupByKey())
                      | beam.io.WriteToText(known_args.output)
-                    )
+                    )'''
         '''output = ( (close_col, open_col)
                      | beam.Flatten()
                      | beam.io.WriteToText(known_args.output)
-                  )'''
+                    )'''
+        output = (open_col 
+                      | 'Sum' >> beam.CombineValues(sum) 
+                      | beam.io.WriteToText(known_args.output)
+                     )
         
 if __name__ == '__main__':
     run()
