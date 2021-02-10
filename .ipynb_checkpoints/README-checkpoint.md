@@ -165,7 +165,7 @@ Below are the steps to setup the enviroment and run the codes:
          with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines = (p 
-                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.io.ReadFromText(known_args.input, skip_header_lines = 1) 
                           | beam.ParDo(Split())
              open_col  = (csv_lines 
                           | beam.ParDo(CollectOpen()) 
@@ -201,7 +201,7 @@ Below are the steps to setup the enviroment and run the codes:
          with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines =  (p 
-                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.io.ReadFromText(known_args.input, skip_header_lines = 1) 
                           | beam.ParDo(Split())
              open_col  =  (csv_lines 
                           | beam.ParDo(CollectOpen()) 
@@ -278,7 +278,7 @@ Below are the steps to setup the enviroment and run the codes:
                           | "Grouping Keys Close" >> beam.GroupByKey()
                           )
              mean_open =  ( open_col 
-                          | "Calculating mean for open" >> beam.CombineValues(beam.combiners.MeanCombineFn())
+                          | "Calculating mean" >> beam.CombineValues(beam.combiners.MeanCombineFn())
                           | beam.io.WriteToText(known_args.output)
                           )
        ``` 
@@ -298,7 +298,7 @@ Below are the steps to setup the enviroment and run the codes:
                 output =  (csv_lines | beam.io.WriteToText(known_args.output) 
        ```
        
-    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records. For example Transaction 
+    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records. For example Transaction. 
     
     | Field Name     | Field Name    |
     | -------------- | --------------|
