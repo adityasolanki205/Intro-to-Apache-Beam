@@ -119,7 +119,7 @@ Below are the steps to setup the enviroment and run the codes:
                          }]
             ...
             
-          with beam.Pipeline(options=PipelineOptions()) as p:
+         with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines = (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
@@ -137,7 +137,7 @@ Below are the steps to setup the enviroment and run the codes:
                  return result
             ...
             
-          with beam.Pipeline(options=PipelineOptions()) as p:
+         with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines = (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
@@ -162,7 +162,7 @@ Below are the steps to setup the enviroment and run the codes:
                  return result
             ...
             
-          with beam.Pipeline(options=PipelineOptions()) as p:
+         with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines = (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
@@ -198,7 +198,7 @@ Below are the steps to setup the enviroment and run the codes:
                  return result
             ...
             
-          with beam.Pipeline(options=PipelineOptions()) as p:
+         with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines =  (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
@@ -231,7 +231,7 @@ Below are the steps to setup the enviroment and run the codes:
                  return result
             ...
             
-          with beam.Pipeline(options=PipelineOptions()) as p:
+         with beam.Pipeline(options=PipelineOptions()) as p:
             
              csv_lines =  (p 
                           | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
@@ -249,7 +249,39 @@ Below are the steps to setup the enviroment and run the codes:
                           | beam.io.WriteToText(known_args.output)
                           )
        ```
-    
+    - ***MeanCombineFn*** : MeanCombineFn accepts a function that takes an iterable of elements as an input, and combines them to return a mean of the input. CombineValues expects a keyed PCollection of elements, where the value is an iterable of elements to be combined. Output saved from this is present with the name ****MeanCombineFn.txt****
+
+       ```python
+         class CollectOpen(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Open'])]
+                 return result
+         class CollectClose(beam.DoFn):
+        
+             def process(self, element):
+                 result = [(1,element['Close'])]
+                 return result
+            ...
+            
+         with beam.Pipeline(options=PipelineOptions()) as p:
+            
+             csv_lines =  (p 
+                          | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                          | beam.ParDo(Split())
+             open_col  =  (csv_lines 
+                          | beam.ParDo(CollectOpen()) 
+                          | "Grouping Keys Open" >> beam.GroupByKey()
+                          )
+             close_col =  (csv_lines 
+                          | beam.ParDo(CollectClose())
+                          | "Grouping Keys Close" >> beam.GroupByKey()
+                          )
+             mean_open =  ( open_col 
+                          | "Calculating mean for open" >> beam.CombineValues(beam.combiners.MeanCombineFn())
+                          | beam.io.WriteToText(known_args.output)
+                          )
+       ```    
 
 ## How to use?
 To test the code we need to do the following:
