@@ -298,13 +298,22 @@ Below are the steps to setup the enviroment and run the codes:
                 output =  (csv_lines | beam.io.WriteToText(known_args.output) 
        ```
        
-    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records. For example Transaction. 
+    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records. For example Transaction table can be defined like given below and Code for this schema is also provided:
     
     | Field Name     | Field Name    |
     | -------------- | --------------|
     | Bank           | String        |
     | purchaseAmount | Double        |
     
+    
+   - ***Typing*** : Beam will automatically infer the correct schema based on the members of the class. 
+
+       ```python
+            class Transaction(typing.NamedTuple):
+                  bank: str
+                  purchase_amount: float
+       ```       
+       
        
 ## How to use?
 To test the code we need to do the following:
