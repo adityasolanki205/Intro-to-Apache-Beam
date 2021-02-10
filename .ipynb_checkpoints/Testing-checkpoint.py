@@ -58,10 +58,14 @@ def run(argv=None, save_main_session=True):
                      | beam.Flatten()
                      | beam.io.WriteToText(known_args.output)
                     )'''
-        output = (open_col 
+        '''output = (open_col 
                       | 'Sum' >> beam.CombineValues(sum) 
                       | beam.io.WriteToText(known_args.output)
-                     )
+                     )'''
+        mean_open = ( open_col 
+                     | "Calculating mean for open" >> beam.CombineValues(beam.combiners.MeanCombineFn())
+                     | beam.io.WriteToText(known_args.output)
+                    )
         
 if __name__ == '__main__':
     run()
