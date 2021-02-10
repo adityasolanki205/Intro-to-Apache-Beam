@@ -281,8 +281,26 @@ Below are the steps to setup the enviroment and run the codes:
                           | "Calculating mean for open" >> beam.CombineValues(beam.combiners.MeanCombineFn())
                           | beam.io.WriteToText(known_args.output)
                           )
-       ```    
-
+       ``` 
+    iv. ***Pipeline I/O*** : When you create a pipeline, you often need to read data from some external source, such as a file or a database. Likewise, you may want your pipeline to output its result data to an external storage system. Beam provides read and write transforms for a number of common data storage types. Most commonly used transforms are stated below:
+    
+    - ***ReadFromText*** : Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
+    
+       ```python
+            with beam.Pipeline(options=PipelineOptions()) as p:
+                csv_lines =  (p | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+       ``` 
+       
+    - ***WriteToText*** : Write transforms write the data in a PCollection to an external data source. You will most often use write transforms at the end of your pipeline to output your pipeline’s final results. 
+    
+       ```python
+            with beam.Pipeline(options=PipelineOptions()) as p:
+                output =  (csv_lines | beam.io.WriteToText(known_args.output) 
+       ```
+       
+    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records.
+    
+       
 ## How to use?
 To test the code we need to do the following:
 
