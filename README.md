@@ -298,7 +298,12 @@ Below are the steps to setup the enviroment and run the codes:
                 output =  (csv_lines | beam.io.WriteToText(known_args.output) 
        ```
        
-    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records.
+    v. ***Schemas*** : Often records have a nested structure. A nested structure occurs when a field itself has subfields so the type of the field itself has a schema. Fields that are array or map types is also a common feature of these structured records. For example Transaction 
+    
+        | Field Name  | Field Name |
+        | ----------- | ----------- |
+        | Bank      | String       |
+        | purchaseAmount   | Double        |
     
        
 ## How to use?
