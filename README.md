@@ -309,6 +309,7 @@ Below are the steps to setup the enviroment and run the codes:
    - ***Typing*** : Beam will automatically infer the correct schema based on the members of the class. 
 
        ```python
+            import typing
             class Transaction(typing.NamedTuple):
                   bank: str
                   purchase_amount: float
