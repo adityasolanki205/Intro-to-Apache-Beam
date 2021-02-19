@@ -314,7 +314,32 @@ Below are the steps to setup the enviroment and run the codes:
                   bank: str
                   purchase_amount: float
        ```       
-       
+
+    vi. ***Windowing Basics*** : Some Beam transforms, such as GroupByKey and Combine, group multiple elements by a common key. Ordinarily, that grouping operation groups all of the elements that have the same key within the entire data set. With an unbounded data set, it is impossible to collect all of the elements, since new elements are constantly being added and may be infinitely many (e.g. streaming data). If you are working with unbounded PCollections, windowing is especially useful. You can set the windowing function for a PCollection by applying the Window transform. When you apply the Window transform, you must provide a WindowFn. The various types of windowing function are explained below:
+
+    - ***Fixed Time Window*** : The simplest form of windowing is using fixed time windows: given a timestamped PCollection which might be continuously updating, each window might capture (for example) all elements with timestamps that fall into a 60 second interval.
+
+       ```python
+            from apache_beam import window 
+            fixed_windowed_item = ( 
+                                     items | 
+                                    'Fixed Window' >> beam.WindowInto(window.FixedWindows(60)) 
+                                  )
+       ```    
+    
+    - ***Sliding Time Window*** : A sliding time window also represents time intervals in the data stream; however, sliding time windows can overlap. For example, each window might capture 60 seconds worth of data, but a new window starts every 30 seconds. The frequency with which sliding windows begin is called the period. Therefore, our example would have a window duration of 60 seconds and a period of 30 seconds.Because multiple windows overlap, most elements in a data set will belong to more than one window. This kind of windowing is useful for taking running averages of data; using sliding time windows, you can compute a running average of the past 60 seconds’ worth of data, updated every 30 seconds. 
+
+       ```python
+            from apache_beam import window 
+            sliding_windowed_item = ( 
+                                     items | 
+                                    'sliding Window' >> beam.WindowInto(window.SlidingWindows(60, 30)) 
+                                  )
+       ```  
+
+    - ***Per Session Window*** : Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
+
+    - ***Single Global Window*** : Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
        
 ## How to use?
 To test the code we need to do the following:
