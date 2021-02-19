@@ -356,7 +356,22 @@ Below are the steps to setup the enviroment and run the codes:
                                     'sliding Window' >> beam.WindowInto(window.GlobalWindows()) 
                                   )
        ``` 
-       
+
+    vi. ***Watermarks and late data*** : In any data processing system, there is a certain amount of lag between the time a data event occurs (the “event time”, determined by the timestamp on the data element itself) and the time the actual data element gets processed at any stage in your pipeline (the “processing time”, determined by the clock on the system processing the element).For example, let’s say we have a PCollection that’s using fixed-time windowing, with windows that are five minutes long. For each window, Beam must collect all the data with an event time timestamp in the given window range (between 0:00 and 4:59 in the first window, for instance). Data with timestamps outside that range (data from 5:00 or later) belong to a different window. However, data isn’t always guaranteed to arrive in a pipeline in time order, or to always arrive at predictable intervals. Beam tracks a ***watermark***, which is the system’s notion of when all data in a certain window can be expected to have arrived in the pipeline. Once the watermark progresses past the end of a window, any further element that arrives with a timestamp in that window is considered ***late data***.You can allow late data by invoking the .withAllowedLateness operation when you set your PCollection's windowing strategy. The following code example demonstrates a windowing strategy that will allow late data up to two days after the end of a window.
+    
+    ```python
+            pc = [Initial PCollection]
+            pc | beam.WindowInto(
+                                 FixedWindows(60),
+                                 trigger=trigger_fn
+                                 accumulation_mode=accumulation_mode,
+                                 timestamp_combiner=timestamp_combiner,
+                                 allowed_lateness=Duration(seconds=2*24*60*60)
+                                )
+    ``` 
+    
+    
+    
 ## How to use?
 To test the code we need to do the following:
 
