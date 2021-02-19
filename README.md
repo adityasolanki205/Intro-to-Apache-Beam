@@ -341,14 +341,21 @@ Below are the steps to setup the enviroment and run the codes:
 
        ```python
             from apache_beam import window 
-            sliding_windowed_item = ( 
+            session_windowed_item = ( 
                                      items | 
                                     'sliding Window' >> beam.WindowInto(window.Sessions(10 * 60)) 
                                   )
        ```  
 
-
-    - ***Single Global Window*** : Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
+    - ***Single Global Window*** : By default, all data in a PCollection is assigned to the single global window, and late data is discarded. If your data set is of a fixed size, you can use the global window default for your PCollection. You can use the single global window if you are working with an unbounded data set (e.g. from a streaming data source) but use caution when applying aggregating transforms such as GroupByKey and Combine. The single global window with a default trigger generally requires the entire data set to be available before processing, which is not possible with continuously updating data.
+    
+       ```python
+            from apache_beam import window 
+            Global_windowed_item = ( 
+                                     items | 
+                                    'sliding Window' >> beam.WindowInto(window.GlobalWindows()) 
+                                  )
+       ``` 
        
 ## How to use?
 To test the code we need to do the following:
