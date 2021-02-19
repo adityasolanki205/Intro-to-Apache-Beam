@@ -343,7 +343,7 @@ Below are the steps to setup the enviroment and run the codes:
             from apache_beam import window 
             session_windowed_item = ( 
                                      items | 
-                                    'sliding Window' >> beam.WindowInto(window.Sessions(10 * 60)) 
+                                    'Session Window' >> beam.WindowInto(window.Sessions(10 * 60)) 
                                   )
        ```  
 
@@ -353,7 +353,7 @@ Below are the steps to setup the enviroment and run the codes:
             from apache_beam import window 
             Global_windowed_item = ( 
                                      items | 
-                                    'sliding Window' >> beam.WindowInto(window.GlobalWindows()) 
+                                    'GLobal Window' >> beam.WindowInto(window.GlobalWindows()) 
                                   )
        ``` 
 
@@ -369,9 +369,20 @@ Below are the steps to setup the enviroment and run the codes:
                                  allowed_lateness=Duration(seconds=2*24*60*60)
                                 )
     ``` 
+
+    vi. ***Triggers*** : When collecting and grouping data into windows, Beam uses triggers to determine when to emit the aggregated results of each window. If you use Beam’s default windowing configuration and default trigger, Beam outputs the aggregated result when it estimates all data has arrived, and discards all subsequent data for that window.Beam provides a number of pre-built triggers that you can set:
+
+    - ***Event time triggers*** : These triggers operate on the event time, as indicated by the timestamp on each data element. Beam’s default trigger is event time-based. The AfterWatermark trigger operates on event time. The AfterWatermark trigger emits the contents of a window after the watermark passes the end of the window, based on the timestamps attached to the data elements. The watermark is a global progress metric, and is Beam’s notion of input completeness within your pipeline at any given point. AfterWatermark only fires when the watermark passes the end of the window.
     
+       ```python
+            AfterWatermark(
+                 early=AfterProcessingTime(delay=1 * 60), late=AfterCount(1))
+
+       ```   
+    - ***Processing time triggers*** : These triggers operate on the processing time – the time when the data element is processed at any given stage in the pipeline.The AfterProcessingTime trigger operates on processing time. For example, the AfterProcessingTime trigger emits a window after a certain amount of processing time has passed since data was received. The processing time is determined by the system clock, rather than the data element’s timestamp. The AfterProcessingTime trigger is useful for triggering early results from a window, particularly a window with a large time frame such as a single global window.
+
     
-    
+       
 ## How to use?
 To test the code we need to do the following:
 
