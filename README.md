@@ -379,8 +379,11 @@ Below are the steps to setup the enviroment and run the codes:
                  early=AfterProcessingTime(delay=1 * 60), late=AfterCount(1))
 
        ```   
+       
     - ***Processing time triggers*** : These triggers operate on the processing time – the time when the data element is processed at any given stage in the pipeline.The AfterProcessingTime trigger operates on processing time. For example, the AfterProcessingTime trigger emits a window after a certain amount of processing time has passed since data was received. The processing time is determined by the system clock, rather than the data element’s timestamp. The AfterProcessingTime trigger is useful for triggering early results from a window, particularly a window with a large time frame such as a single global window.
-
+    
+    
+    - **Data Driven triggers*** : These triggers operate by examining the data as it arrives in each window, and firing when that data meets a certain property. Currently, data-driven triggers only support firing after a certain number of data elements.Beam provides one data-driven trigger, AfterCount. This trigger works on an element count; it fires after the current pane has collected at least N elements. This allows a window to emit early results (before all the data has accumulated), which can be particularly useful if you are using a single global window.
     
        
 ## How to use?
