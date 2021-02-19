@@ -337,7 +337,16 @@ Below are the steps to setup the enviroment and run the codes:
                                   )
        ```  
 
-    - ***Per Session Window*** : Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
+    - ***Per Session Window*** : A session window function defines windows that contain elements that are within a certain gap duration of another element. Session windowing applies on a per-key basis and is useful for data that is irregularly distributed with respect to time. For example, a data stream representing user mouse activity may have long periods of idle time interspersed with high concentrations of clicks. If data arrives after the minimum specified gap duration time, this initiates the start of a new window. The following example code shows how to apply Window to divide a PCollection into session windows, where each session must be separated by a time gap of at least 10 minutes (600 seconds). Note that the sessions are per-key — each key in the collection will have its own session groupings depending on the data distribution
+
+       ```python
+            from apache_beam import window 
+            sliding_windowed_item = ( 
+                                     items | 
+                                    'sliding Window' >> beam.WindowInto(window.Sessions(10 * 60)) 
+                                  )
+       ```  
+
 
     - ***Single Global Window*** : Read transforms read data from an external source and return a PCollection representation of the data for use by your pipeline. 
        
