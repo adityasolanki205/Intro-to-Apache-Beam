@@ -385,6 +385,18 @@ Below are the steps to setup the enviroment and run the codes:
     
     - **Data Driven triggers*** : These triggers operate by examining the data as it arrives in each window, and firing when that data meets a certain property. Currently, data-driven triggers only support firing after a certain number of data elements.Beam provides one data-driven trigger, AfterCount. This trigger works on an element count; it fires after the current pane has collected at least N elements. This allows a window to emit early results (before all the data has accumulated), which can be particularly useful if you are using a single global window.
     
+
+    - **Composite triggers*** : These triggers combine multiple triggers in various ways.
+    
+  
+    - **Setting a Trigger*** : When you set a windowing function for a PCollection by using the WindowInto transform, you can also specify a trigger.You set the trigger(s) for a PCollection by setting the trigger parameter when you use the WindowInto transform. This code sample sets a time-based trigger for a PCollection, which emits results one minute after the first element in that window has been processed. The accumulation_mode parameter sets the window’s accumulation mode.
+
+       ```python
+           pcollection | WindowInto(
+                         FixedWindows(1 * 60),
+                         trigger=AfterProcessingTime(1 * 60),
+                         accumulation_mode=AccumulationMode.DISCARDING)
+       ``` 
        
 ## How to use?
 To test the code we need to do the following:
