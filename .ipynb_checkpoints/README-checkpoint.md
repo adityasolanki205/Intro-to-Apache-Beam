@@ -416,34 +416,6 @@ Below are the steps to setup the enviroment and run the codes:
 
     - **Gauge*** : A metric that reports the latest value out of reported values. Since metrics are collected from many workers the value may not be the absolute last, but one of the latest values.
 
-
-
-## How to use?
-To test the code we need to do the following:
-
-    1. Copy the german.data in the current folder
-    
-    2. Open the 'German credit.ipynb'
-    
-    3. Run all the cells
-    
-## Repository Content
-
-    1. German Credit.ipynb
-
-    2. German Credit.html
-    
-    3. German Credit-Tensorflow.ipynb
-
-    2. German Credit-Tensorflow.html
-    
-    3. german.data    
-    
-    4. german.data-numeric
-    
-    5. german.doc
-    
-
 ## Credits
 1. Akash Nimare's [README.md](https://gist.github.com/akashnimare/7b065c12d9750578de8e705fb4771d2f#file-readme-md)
-2. [Machine Learning Mastery](https://machinelearningmastery.com/imbalanced-classification-of-good-and-bad-credit/)
+2. [Apache Beam](https://beam.apache.org/documentation/programming-guide/#triggers)
