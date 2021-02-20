@@ -387,6 +387,7 @@ Below are the steps to setup the enviroment and run the codes:
     
 
     - **Composite triggers*** : These triggers combine multiple triggers in various ways.
+    
   
     - **Setting a Trigger*** : When you set a windowing function for a PCollection by using the WindowInto transform, you can also specify a trigger.You set the trigger(s) for a PCollection by setting the trigger parameter when you use the WindowInto transform. This code sample sets a time-based trigger for a PCollection, which emits results one minute after the first element in that window has been processed. The accumulation_mode parameter sets the window’s accumulation mode.
 
