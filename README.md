@@ -408,7 +408,16 @@ Below are the steps to setup the enviroment and run the codes:
                          trigger=AfterProcessingTime(1 * 60),
                          accumulation_mode=AccumulationMode.DISCARDING)
        ``` 
-       
+    vi. ***Metrics*** : Metrics provide some insight into the current state of a user pipeline, potentially while the pipeline is running.There are various types of matrics currently supported.
+
+    - **Counter*** : A metric that reports a single long value and can be incremented or decremented.
+    
+    - **Distribution*** : A metric that reports information about the distribution of reported values.
+
+    - **Gauge*** : A metric that reports the latest value out of reported values. Since metrics are collected from many workers the value may not be the absolute last, but one of the latest values.
+
+
+
 ## How to use?
 To test the code we need to do the following:
 
