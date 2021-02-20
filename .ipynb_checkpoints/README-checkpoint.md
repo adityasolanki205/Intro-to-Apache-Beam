@@ -388,7 +388,17 @@ Below are the steps to setup the enviroment and run the codes:
 
     - **Composite triggers*** : These triggers combine multiple triggers in various ways.
     
-        - You can add additional early firings or late firings to AfterWatermark.pastEndOfWindow via .withEarlyFirings and .withLateFirings.
+        - You can add additional early firings or late firings to **AfterWatermark.pastEndOfWindow** via **.withEarlyFirings** and **.withLateFirings**.
+        
+        - **Repeatedly.forever** specifies a trigger that executes forever. Any time the trigger’s conditions are met, it causes a window to emit results and then resets and starts over. It can be useful to combine **Repeatedly.forever** with **.orFinally** to specify a condition that causes the repeating trigger to stop.
+        
+        - **AfterEach.inOrder** combines multiple triggers to fire in a specific sequence. Each time a trigger in the sequence emits a window, the sequence advances to the next trigger.
+        
+        - **AfterFirst** takes multiple triggers and emits the first time any of its argument triggers is satisfied. This is equivalent to a logical OR operation for multiple triggers.
+        
+        - **AfterAll** takes multiple triggers and emits when all of its argument triggers are satisfied. This is equivalent to a logical AND operation for multiple triggers.
+        
+        - **orFinally** can serve as a final condition to cause any trigger to fire one final time and never fire again.
    
     - **Setting a Trigger*** : When you set a windowing function for a PCollection by using the WindowInto transform, you can also specify a trigger.You set the trigger(s) for a PCollection by setting the trigger parameter when you use the WindowInto transform. This code sample sets a time-based trigger for a PCollection, which emits results one minute after the first element in that window has been processed. The accumulation_mode parameter sets the window’s accumulation mode.
 
