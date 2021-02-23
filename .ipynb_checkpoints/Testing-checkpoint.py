@@ -38,7 +38,7 @@ def run(argv=None, save_main_session=True):
     options = PipelineOptions(pipeline_args)
     with beam.Pipeline(options=PipelineOptions()) as p:
         csv_lines = (p 
-                     | beam.io.ReadFromText(known_args.input,  skip_header_lines = 1) 
+                     | beam.io.ReadFromText(known_args.input, skip_header_lines = 1) 
                      | beam.ParDo(Split()))
         open_col  = (csv_lines 
                      | beam.ParDo(CollectOpen()) 
