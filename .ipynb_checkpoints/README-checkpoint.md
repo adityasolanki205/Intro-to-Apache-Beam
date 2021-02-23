@@ -415,6 +415,8 @@ Below are the steps to setup the enviroment and run the codes:
     - **Distribution*** : A metric that reports information about the distribution of reported values.
 
     - **Gauge*** : A metric that reports the latest value out of reported values. Since metrics are collected from many workers the value may not be the absolute last, but one of the latest values.
+    
+- **Batch Pipelines**: After learning basics of Apache Beam, let us try to create a Batch Pipeline to run it on Google DataFlow. You can find the repository [Here]()
 
 ## Credits
 1. Akash Nimare's [README.md](https://gist.github.com/akashnimare/7b065c12d9750578de8e705fb4771d2f#file-readme-md)
