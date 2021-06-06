@@ -35,8 +35,8 @@ def run(argv=None, save_main_session=True):
       default='../output/result.txt',
       help='Output file to write results to.')
     known_args, pipeline_args = parser.parse_known_args(argv)
-    options = PipelineOptions(pipeline_args)
-    with beam.Pipeline(options=PipelineOptions()) as p:
+    Options = PipelineOptions(pipeline_args)
+    with beam.Pipeline(options=Options) as p:
         csv_lines = (p 
                      | beam.io.ReadFromText(known_args.input, skip_header_lines = 1) 
                      | beam.ParDo(Split()))
